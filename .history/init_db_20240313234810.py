@@ -1,12 +1,12 @@
 import sqlite3
 
-# Connect to the database (it will be created if it does not exist)
+# Connectez-vous à la base de données (elle sera créée si elle n'existe pas)
 conn = sqlite3.connect('forum.db')
 
-# Create a cursor to execute SQL commands
+# Créer un curseur pour exécuter les commandes SQL
 c = conn.cursor()
 
-# Create Tables
+# Créer les tables
 c.execute('''CREATE TABLE IF NOT EXISTS Utilisateurs (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
@@ -33,10 +33,10 @@ c.execute('''CREATE TABLE IF NOT EXISTS Réponses (
     FOREIGN KEY (user_id) REFERENCES Utilisateurs(user_id)
 )''')
 
-# Validate the changes
+# Validez les changements
 conn.commit()
 
-# Close the connection
+# Fermez la connexion
 conn.close()
 
 print("Les tables ont été créées avec succès.")

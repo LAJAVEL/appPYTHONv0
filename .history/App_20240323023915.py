@@ -6,8 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forum.db'
-app.config['SECRET_KEY'] = 'LaCleSecrete0' 
-#"Yes, it's not recommended, but it's just for the exercise."
+app.config['SECRET_KEY'] = 'LaCleSecrete0' #oui ce n'est pas recommandé mais c'est juste pour l'exercice
 db = SQLAlchemy(app)
 
 # refresh
@@ -71,15 +70,15 @@ def register():
         email = request.form['email']
         password = request.form['password']
 
-        # Simple validation to block certain characters
+        # Validation simple pour bloquer certains caractères
         if any(char in "<>=+" for char in username + email):
             flash("Les caractères <, >, =, + ne sont pas autorisés.", "danger")
             return render_template('register.html')
 
-        # Generation of hashed password
+        # Génération du mot de passe hashé
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256', salt_length=16)
 
-        # Attempting to add the new user to the database
+        # Tentative d'ajouter le nouvel utilisateur à la base de données
         try:
             new_user = User(username=username, email=email, password_hash=hashed_password)
             db.session.add(new_user)
@@ -118,7 +117,7 @@ def logout():
 def search():
     query = request.args.get('q')
     if query:
-        # Use '%' around the query for a partial search
+        # Utilise '%' autour de la requête pour une recherche partielle
         search = "%{}%".format(query)
         posts = Post.query.filter(Post.title.ilike(search) | Post.content.ilike(search)).all()
     else:
@@ -134,13 +133,13 @@ def delete_post(post_id):
         flash('Vous n\'êtes pas autorisé à supprimer ce message.', 'danger')
         return redirect(url_for('index'))
     
-    # Keep the first 3 words of the original message for display
+    # Garder les 3 premiers mots du message original pour l'affichage
     words = post.content.split()[:3]
     preview = ' '.join(words) + '...'
     post.is_deleted = True
     post.deleted_content_preview = preview
-   # Do not completely erase the content to keep the preview
-     # post.content = 'Post deleted by user.'
+    # Ne pas effacer entièrement le contenu pour conserver le preview
+    # post.content = 'Message supprimé par l\'utilisateur.'
     
     db.session.commit()
     flash('Le message a été supprimé.', 'success')
@@ -148,7 +147,7 @@ def delete_post(post_id):
 
 @app.route('/post/<int:post_id>/reply', methods=['POST'])
 def post_reply(post_id):
-    # Logic to process the response here
+    # Logique pour traiter la réponse ici
     return redirect(url_for('post_detail', post_id=post_id))
 
 @app.route('/post/<int:post_id>', methods=['GET', 'POST'])

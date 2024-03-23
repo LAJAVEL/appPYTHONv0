@@ -10,7 +10,7 @@
             <p class="card-text">{{ post.content }}</p>
             <p class="card-text"><small class="text-muted">Posté par {{ post.author.username }} le {{ post.timestamp.strftime('%Y-%m-%d %H:%M') }}</small></p>
             
-            <!-- Show delete button only for post author -->
+            <!-- Afficher le bouton de suppression uniquement pour l'auteur du message -->
             {% if 'user_id' in session and session['user_id'] == post.user_id %}
             <form action="{{ url_for('post_detail', post_id=post.id) }}" method="POST">
                     <button type="submit" class="btn btn-danger">Supprimer</button>
