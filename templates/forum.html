@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Toutes les Discussions</h2>
+    {% for post in posts %}
+    <div class="card mb-3">
+        <div class="card-header">
+            Posté par {{ post.author.username }} le {{ post.timestamp.strftime('%Y-%m-%d à %H:%M') }}
+        </div>
+        <div class="card-body">
+            {% if post.is_deleted %}
+                <p class="card-text">Message supprimé par l'utilisateur : "{{ post.deleted_content_preview }}"...</p>
+            {% else %}
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">{{ post.content | truncate(150) }}</p>
+                <a href="{{ url_for('post_detail', post_id=post.id) }}" class="btn btn-primary">Lire la suite</a>
+                <span class="badge bg-secondary">{{ post.replies|length }} réponses</span>
+            {% endif %}
+            
+            <!-- Afficher le bouton de suppression uniquement pour l'auteur du message -->
+            {% if 'user_id' in session and session['user_id'] == post.user_id %}
+                <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <p>Aucune discussion à afficher. Soyez le premier à en créer une !</p>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% if next_url %}
+    <a href="{{ next_url }}" class="btn btn-info">Suivant</a>
+{% endif %}
+{% if prev_url %}
+    <a href="{{ prev_url }}" class="btn btn-info">Précédent</a>
+{% endif %}
+

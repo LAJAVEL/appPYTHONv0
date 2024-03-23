@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExplorePYTHONv0</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <h1>Bienvenue sur mon application Flask !</h1>
-    <p>C'est ma première application Flask.</p>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Bienvenue sur le Forum!</h1>
+    <p class="lead">Ceci est un espace de discussion où vous pouvez partager vos idées, poser des questions et connecter avec d'autres passionnés.</p>
+    <hr class="my-4">
+    <p>Pour participer, naviguez vers nos discussions ou commencez par vous inscrire si ce n'est pas déjà fait.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" role="button">Inscrivez-vous</a>
+    <a class="btn btn-secondary btn-lg" href="{{ url_for('forum') }}" role="button">Voir les Discussions</a>
+</div>
+
+{% endblock %}

@@ -1,12 +1,16 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #f8f9fa;
 }
 
-h1 {
-    color: #333;
+.navbar-brand {
+    font-weight: bold;
 }
 
-p {
-    color: #666;
+.card-header {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.card-title {
+    color: #007bff;
 }
